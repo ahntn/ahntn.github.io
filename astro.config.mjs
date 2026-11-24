@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { unified } from '@astrojs/markdown-remark';
 import { siteConfig } from './site.config.ts';
@@ -13,7 +12,7 @@ export default defineConfig({
   base: siteConfig.base,
   trailingSlash: 'never',
   build: { format: 'file' },
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx()],
   markdown: {
     processor: unified({ remarkPlugins: [remarkReadingTime, remarkTodo] }),
     shikiConfig: {
