@@ -1,0 +1,24 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
+import { siteConfig } from './site.config.ts';
+import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
+import { remarkTodo } from './src/plugins/remark-todo.mjs';
+
+export default defineConfig({
+  site: siteConfig.site,
+  base: siteConfig.base,
+  trailingSlash: 'never',
+  build: { format: 'file' },
+  integrations: [mdx(), sitemap()],
+  markdown: {
+    remarkPlugins: [remarkReadingTime, remarkTodo],
+    shikiConfig: {
+      themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+      wrap: false,
+    },
+  },
+  vite: { plugins: [tailwindcss()] },
+});
