@@ -69,7 +69,7 @@ export const GET: APIRoute = async function get(context) {
         {
           type: 'div',
           props: {
-            style: { display: 'flex', flexDirection: 'column', gap: 24 },
+            style: { display: 'flex', flexDirection: 'column', gap: 24, width: 1056 },
             children: [
               {
                 type: 'div',

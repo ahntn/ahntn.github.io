@@ -16,7 +16,7 @@ export default defineConfig({
   markdown: {
     processor: unified({ remarkPlugins: [remarkReadingTime, remarkTodo] }),
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+      themes: { light: 'github-light', dark: 'github-dark' },
       wrap: false,
     },
   },
