@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { unified } from '@astrojs/markdown-remark';
 import { siteConfig } from './site.config.ts';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 import { remarkTodo } from './src/plugins/remark-todo.mjs';
@@ -14,7 +15,7 @@ export default defineConfig({
   build: { format: 'file' },
   integrations: [mdx(), sitemap()],
   markdown: {
-    remarkPlugins: [remarkReadingTime, remarkTodo],
+    processor: unified({ remarkPlugins: [remarkReadingTime, remarkTodo] }),
     shikiConfig: {
       themes: { light: 'github-light', dark: 'github-dark-dimmed' },
       wrap: false,
