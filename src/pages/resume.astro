@@ -33,17 +33,24 @@ const pdfIsPlaceholder = readFileSync('public/resume.pdf').includes('PLACEHOLDER
       Print this page
     </button>
   </div>
-  {pdfIsPlaceholder && <p class="no-print mt-4"><Todo note="replace public/resume.pdf with your real resume." /></p>}
+  {pdfIsPlaceholder && (
+    <p class="no-print mt-4">
+      <Todo note="replace public/resume.pdf with your real resume." />
+    </p>
+  )}
 
   <article class="mt-10 max-w-3xl" aria-label="Resume">
     <header class="mb-8">
       <h2 class="text-4xl font-semibold">{siteConfig.name}</h2>
       <p class="text-lg">{siteConfig.jobTitle}</p>
       <p class="text-muted">
-        {siteConfig.location} · Canadian citizen · {siteConfig.links.linkedin.replace('https://www.', '')}
-        · {siteConfig.links.github.replace('https://', '')}
+        {siteConfig.location} · Canadian citizen ·{' '}
+        {siteConfig.links.linkedin.replace('https://www.', '')}·{' '}
+        {siteConfig.links.github.replace('https://', '')}
       </p>
-      <p class="mt-4">{siteConfig.positioning} {siteConfig.openToWork}</p>
+      <p class="mt-4">
+        {siteConfig.positioning} {siteConfig.openToWork}
+      </p>
     </header>
     <section class="mb-10">
       <h2 class="mb-4 text-2xl font-semibold">Skills</h2>

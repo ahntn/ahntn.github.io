@@ -19,8 +19,8 @@ const { data } = post;
     </a>
   </h3>
   <p class="text-sm text-muted">
-    <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
-    · {readingTime} min read
+    <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>·{' '}
+    {readingTime} min read
     {data.tags.length > 0 && <span> · {data.tags.join(', ')}</span>}
   </p>
   <p>{data.description}</p>

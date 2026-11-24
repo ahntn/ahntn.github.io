@@ -23,7 +23,11 @@ const jsonLd = {
   url: absolute('/'),
   address: { '@type': 'PostalAddress', addressRegion: 'Alberta', addressCountry: 'CA' },
   nationality: { '@type': 'Country', name: 'Canada' },
-  worksFor: { '@type': 'Organization', name: 'Gambasoft', url: siteConfig.links.gambasoft },
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Gambasoft',
+    url: siteConfig.links.gambasoft,
+  },
   sameAs: [siteConfig.links.github, siteConfig.links.linkedin],
 };
 ---
@@ -35,61 +39,61 @@ const jsonLd = {
     <p class="mt-6 max-w-2xl font-serif text-2xl leading-snug sm:text-3xl">
       {siteConfig.positioning}
     </p>
-    <p
-      class="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm"
-    >
+    <p class="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm">
       <span class="h-2 w-2 rounded-full bg-green-600" aria-hidden="true"></span>
       {siteConfig.openToWork}
     </p>
   </section>
 
-  {
-    projects.length > 0 && (
-      <section class="py-10" aria-labelledby="featured">
-        <div class="mb-6 flex items-baseline justify-between">
-          <h2 id="featured" class="text-3xl font-semibold">
-            Featured projects
-          </h2>
-          <a href={withBase('/projects')} class="text-sm underline">
-            All projects
-          </a>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard project={project} />
-          ))}
-        </div>
-      </section>
-    )
-  }
+  {projects.length > 0 && (
+    <section class="py-10" aria-labelledby="featured">
+      <div class="mb-6 flex items-baseline justify-between">
+        <h2 id="featured" class="text-3xl font-semibold">
+          Featured projects
+        </h2>
+        <a href={withBase('/projects')} class="text-sm underline">
+          All projects
+        </a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    </section>
+  )}
 
-  {
-    (posts.length > 0 || isDev) && (
-      <section class="py-10" aria-labelledby="latest">
-        <div class="mb-6 flex items-baseline justify-between">
-          <h2 id="latest" class="text-3xl font-semibold">
-            Latest writing
-          </h2>
-          <a href={withBase('/writing')} class="text-sm underline">
-            All posts
-          </a>
-        </div>
-        <div class="flex flex-col gap-8">
-          {posts.map((post, index) => (
-            <PostItem post={post} readingTime={postTimes[index]} />
-          ))}
-          {posts.length === 0 && <Todo note="publish a first post (hidden in production while empty)." />}
-        </div>
-      </section>
-    )
-  }
+  {(posts.length > 0 || isDev) && (
+    <section class="py-10" aria-labelledby="latest">
+      <div class="mb-6 flex items-baseline justify-between">
+        <h2 id="latest" class="text-3xl font-semibold">
+          Latest writing
+        </h2>
+        <a href={withBase('/writing')} class="text-sm underline">
+          All posts
+        </a>
+      </div>
+      <div class="flex flex-col gap-8">
+        {posts.map((post, index) => (
+          <PostItem post={post} readingTime={postTimes[index]} />
+        ))}
+        {posts.length === 0 && (
+          <Todo note="publish a first post (hidden in production while empty)." />
+        )}
+      </div>
+    </section>
+  )}
 
   <section class="py-10" id="contact" aria-labelledby="contact-title">
-    <h2 id="contact-title" class="mb-4 text-3xl font-semibold">Contact</h2>
+    <h2 id="contact-title" class="mb-4 text-3xl font-semibold">
+      Contact
+    </h2>
     <p class="mb-4 max-w-xl text-muted">
       The best way to reach me is LinkedIn. I'm also the founder of
-      <a class="underline" href={siteConfig.links.gambasoft} rel="noopener">Gambasoft</a>,
-      where I build our own products and take on client work in web, cloud and AI.
+      <a class="underline" href={siteConfig.links.gambasoft} rel="noopener">
+        Gambasoft
+      </a>
+      , where I build our own products and take on client work in web, cloud and AI.
     </p>
     <ContactLinks />
   </section>

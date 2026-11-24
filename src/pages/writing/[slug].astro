@@ -6,12 +6,12 @@ import { formatDate, getPosts } from '../../lib/content';
 import { absolute, withBase } from '../../lib/url';
 import { siteConfig } from '../../../site.config';
 
-export const getStaticPaths = (async function getPaths() {
+export const getStaticPaths = async function getPaths() {
   const posts = await getPosts();
   return posts.map(function toPath(post) {
     return { params: { slug: post.id }, props: { post } };
   });
-}) satisfies GetStaticPaths;
+} satisfies GetStaticPaths;
 
 const props = Astro.props;
 const { post } = props;
@@ -43,24 +43,24 @@ const jsonLd = {
 >
   <article class="mt-8">
     <p class="mb-3 text-sm">
-      <a href={withBase('/writing')} class="text-muted underline">← All posts</a>
+      <a href={withBase('/writing')} class="text-muted underline">
+        ← All posts
+      </a>
     </p>
     <h1 class="max-w-3xl text-4xl font-semibold sm:text-5xl">{data.title}</h1>
     <p class="mt-4 text-sm text-muted">
-      <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
-      · {minutes} min read
+      <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>·{' '}
+      {minutes} min read
     </p>
-    {
-      data.tags.length > 0 && (
-        <ul class="mt-3 flex flex-wrap gap-2" aria-label="Tags">
-          {data.tags.map((tag) => (
-            <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">
-              {tag}
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    {data.tags.length > 0 && (
+      <ul class="mt-3 flex flex-wrap gap-2" aria-label="Tags">
+        {data.tags.map((tag) => (
+          <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    )}
     <div class="prose mt-10 text-lg">
       <Content />
     </div>

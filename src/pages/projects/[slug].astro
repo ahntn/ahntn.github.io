@@ -6,12 +6,12 @@ import Todo from '../../components/Todo.astro';
 import { getProjects } from '../../lib/content';
 import { withBase } from '../../lib/url';
 
-export const getStaticPaths = (async function getPaths() {
+export const getStaticPaths = async function getPaths() {
   const projects = await getProjects();
   return projects.map(function toPath(project) {
     return { params: { slug: project.id }, props: { project } };
   });
-}) satisfies GetStaticPaths;
+} satisfies GetStaticPaths;
 
 const props = Astro.props;
 const { project } = props;
@@ -29,90 +29,82 @@ const isDev = import.meta.env.DEV;
 >
   <article class="mt-8">
     <p class="mb-3 text-sm">
-      <a href={withBase('/projects')} class="text-muted underline">← All projects</a>
+      <a href={withBase('/projects')} class="text-muted underline">
+        ← All projects
+      </a>
     </p>
     <h1 class="text-5xl font-semibold">{data.title}</h1>
     <p class="mt-4 max-w-2xl text-xl text-muted">{data.summary}</p>
 
     <dl class="mt-8 grid gap-x-8 gap-y-4 text-sm sm:grid-cols-[auto_1fr]">
-      {
-        data.role && (
-          <>
-            <dt class="font-medium">Role</dt>
-            <dd class="text-muted">{data.role}</dd>
-          </>
-        )
-      }
-      {
-        data.stack.length > 0 && (
-          <>
-            <dt class="font-medium">Stack</dt>
-            <dd>
-              <ul class="flex flex-wrap gap-2">
-                {data.stack.map((tag) => (
-                  <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">
-                    {tag}
-                  </li>
-                ))}
-              </ul>
-            </dd>
-          </>
-        )
-      }
-      {
-        data.demo && (
-          <>
-            <dt class="font-medium">Demo</dt>
-            <dd>
-              <a href={data.demo} rel="noopener" class="underline">
-                {data.demo}
-              </a>
-            </dd>
-          </>
-        )
-      }
-      {
-        data.code && (
-          <>
-            <dt class="font-medium">Code</dt>
-            <dd>
-              <a href={data.code} rel="noopener" class="underline">
-                {data.code}
-              </a>
-            </dd>
-          </>
-        )
-      }
+      {data.role && (
+        <>
+          <dt class="font-medium">Role</dt>
+          <dd class="text-muted">{data.role}</dd>
+        </>
+      )}
+      {data.stack.length > 0 && (
+        <>
+          <dt class="font-medium">Stack</dt>
+          <dd>
+            <ul class="flex flex-wrap gap-2">
+              {data.stack.map((tag) => (
+                <li class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-muted">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </>
+      )}
+      {data.demo && (
+        <>
+          <dt class="font-medium">Demo</dt>
+          <dd>
+            <a href={data.demo} rel="noopener" class="underline">
+              {data.demo}
+            </a>
+          </dd>
+        </>
+      )}
+      {data.code && (
+        <>
+          <dt class="font-medium">Code</dt>
+          <dd>
+            <a href={data.code} rel="noopener" class="underline">
+              {data.code}
+            </a>
+          </dd>
+        </>
+      )}
     </dl>
 
-    {
-      (data.image || data.video) && (
-        <figure class="mt-10">
-          {data.video ? (
-            <video
-              controls
-              preload="metadata"
-              class="w-full rounded-lg border border-line"
-              src={withBase(data.video)}
-            />
-          ) : (
-            <img
-              src={withBase(data.image ?? '')}
-              alt={data.imageAlt ?? data.title}
-              width="1200"
-              height="750"
-              loading="lazy"
-              class="w-full rounded-lg border border-line"
-            />
-          )}
-        </figure>
-      )
-    }
-    {
-      !data.image && !data.video && isDev && (
-        <p class="mt-10"><Todo note="add `image` (screenshot) or `video` to this project's frontmatter." /></p>
-      )
-    }
+    {(data.image || data.video) && (
+      <figure class="mt-10">
+        {data.video ? (
+          <video
+            controls
+            preload="metadata"
+            class="w-full rounded-lg border border-line"
+            src={withBase(data.video)}
+          />
+        ) : (
+          <img
+            src={withBase(data.image ?? '')}
+            alt={data.imageAlt ?? data.title}
+            width="1200"
+            height="750"
+            loading="lazy"
+            class="w-full rounded-lg border border-line"
+          />
+        )}
+      </figure>
+    )}
+    {!data.image && !data.video && isDev && (
+      <p class="mt-10">
+        <Todo note="add `image` (screenshot) or `video` to this project's frontmatter." />
+      </p>
+    )}
 
     <div class="prose mt-10 text-lg">
       <Content />

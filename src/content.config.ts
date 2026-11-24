@@ -12,9 +12,9 @@ const projects = defineCollection({
     draft: z.boolean().default(false),
     role: z.string().optional(),
     stack: z.array(z.string()).default([]),
-    demo: z.string().url().optional(),
+    demo: z.url().optional(),
     // Optional. Private repos (e.g. Gambasoft apps) leave this empty.
-    code: z.string().url().optional(),
+    code: z.url().optional(),
     // Optional screenshot: path under /public, plus alt text.
     image: z.string().optional(),
     imageAlt: z.string().optional(),

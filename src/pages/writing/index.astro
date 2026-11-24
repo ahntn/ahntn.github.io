@@ -17,10 +17,22 @@ const times = await Promise.all(posts.map(getReadingTime));
 >
   <h1 class="mt-8 text-5xl font-semibold">Writing</h1>
   <p class="mt-4 text-muted">
-    <a href={withBase('/rss.xml')} class="underline">Subscribe via RSS</a>
+    <a href={withBase('/rss.xml')} class="underline">
+      Subscribe via RSS
+    </a>
   </p>
   <div class="mt-10 flex flex-col gap-10">
-    {posts.map((post, index) => <PostItem post={post} readingTime={times[index]} />)}
-    {posts.length === 0 && <Todo note="no published posts yet." />}
+    {posts.map((post, index) => (
+      <PostItem post={post} readingTime={times[index]} />
+    ))}
+    {posts.length === 0 && (
+      <p class="text-muted">
+        {import.meta.env.DEV ? (
+          <Todo note="no published posts yet." />
+        ) : (
+          'Nothing published yet.'
+        )}
+      </p>
+    )}
   </div>
 </Base>
