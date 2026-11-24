@@ -1,0 +1,63 @@
+---
+import { readFileSync } from 'node:fs';
+import Base from '../layouts/Base.astro';
+import Timeline from '../components/Timeline.astro';
+import SkillsGrid from '../components/SkillsGrid.astro';
+import Todo from '../components/Todo.astro';
+import { siteConfig } from '../../site.config';
+import { withBase } from '../lib/url';
+
+// The committed PDF is a placeholder until it contains no PLACEHOLDER marker.
+const pdfIsPlaceholder = readFileSync('public/resume.pdf').includes('PLACEHOLDER');
+---
+
+<Base
+  title="Resume"
+  description="Resume of Anh Nguyen, senior full-stack engineer: PDF download and printable version."
+  path="/resume"
+>
+  <div class="no-print mt-8 flex flex-wrap items-center gap-4">
+    <h1 class="mr-auto text-5xl font-semibold">Resume</h1>
+    <a
+      href={withBase(siteConfig.resumePdf)}
+      class="rounded-md bg-accent px-4 py-2 font-medium text-accent-fg no-underline"
+      download
+    >
+      Download PDF
+    </a>
+    <button
+      type="button"
+      id="print-btn"
+      class="rounded-md border border-line px-4 py-2 font-medium"
+    >
+      Print this page
+    </button>
+  </div>
+  {pdfIsPlaceholder && <p class="no-print mt-4"><Todo note="replace public/resume.pdf with your real resume." /></p>}
+
+  <article class="mt-10 max-w-3xl" aria-label="Resume">
+    <header class="mb-8">
+      <h2 class="text-4xl font-semibold">{siteConfig.name}</h2>
+      <p class="text-lg">{siteConfig.jobTitle}</p>
+      <p class="text-muted">
+        {siteConfig.location} · Canadian citizen · {siteConfig.links.linkedin.replace('https://www.', '')}
+        · {siteConfig.links.github.replace('https://', '')}
+      </p>
+      <p class="mt-4">{siteConfig.positioning} {siteConfig.openToWork}</p>
+    </header>
+    <section class="mb-10">
+      <h2 class="mb-4 text-2xl font-semibold">Skills</h2>
+      <SkillsGrid />
+    </section>
+    <section>
+      <h2 class="mb-6 text-2xl font-semibold">Experience</h2>
+      <Timeline />
+    </section>
+  </article>
+
+  <script>
+    document.getElementById('print-btn')?.addEventListener('click', function onClick() {
+      window.print();
+    });
+  </script>
+</Base>

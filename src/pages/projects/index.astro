@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Todo from '../../components/Todo.astro';
+import { getProjects } from '../../lib/content';
+
+const projects = await getProjects();
+---
+
+<Base
+  title="Projects"
+  description="Selected projects by Anh Nguyen: problem, what I built, stack and what I learned."
+  path="/projects"
+>
+  <h1 class="mt-8 text-5xl font-semibold">Projects</h1>
+  <p class="mt-4 max-w-2xl text-lg text-muted">
+    Selected work. Code for my Gambasoft apps is private, so some projects have a demo but no
+    repository.
+  </p>
+  <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </div>
+  {projects.length === 0 && <p class="mt-10"><Todo note="no published projects yet." /></p>}
+</Base>

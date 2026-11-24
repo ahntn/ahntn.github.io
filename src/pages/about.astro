@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Timeline from '../components/Timeline.astro';
+import SkillsGrid from '../components/SkillsGrid.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import Todo from '../components/Todo.astro';
+import { siteConfig } from '../../site.config';
+---
+
+<Base
+  title="About"
+  description="Senior full-stack engineer with 8+ years of experience: React and TypeScript first, now deepening Node.js and Python back ends."
+  path="/about"
+>
+  <h1 class="mt-8 text-5xl font-semibold">About</h1>
+
+  <div class="prose mt-8 text-lg">
+    <p>
+      I'm a senior full-stack engineer with 8+ years of experience. React and TypeScript come
+      first for me, and I'm now deepening my Node.js and Python back-end work.
+    </p>
+    <p>
+      I'm based in {siteConfig.location} and I'm a Canadian citizen. I'm looking for a full-time
+      remote role. I also run{' '}
+      <a href={siteConfig.links.gambasoft} rel="noopener">Gambasoft</a>, a company that builds its
+      own products and does client work in web, cloud and AI.
+    </p>
+    <p><Todo note="add 1-2 personal sentences: how you like to work, what you want next." /></p>
+  </div>
+
+  <section class="mt-16" aria-labelledby="skills">
+    <h2 id="skills" class="mb-6 text-3xl font-semibold">Skills</h2>
+    <SkillsGrid />
+  </section>
+
+  <section class="mt-16" aria-labelledby="experience">
+    <h2 id="experience" class="mb-8 text-3xl font-semibold">Experience</h2>
+    <Timeline />
+  </section>
+
+  <section class="mt-8" aria-labelledby="elsewhere">
+    <h2 id="elsewhere" class="mb-4 text-3xl font-semibold">Elsewhere</h2>
+    <ContactLinks />
+  </section>
+</Base>
