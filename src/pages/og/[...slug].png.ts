@@ -75,7 +75,8 @@ export const GET: APIRoute = async function get(context) {
                 type: 'div',
                 props: {
                   style: {
-                    fontFamily: 'SpectralHead',
+                    fontFamily: 'Spectral',
+                    fontWeight: 800,
                     fontSize: isDefault ? 110 : 80,
                     lineHeight: 1.05,
                   },
@@ -114,7 +115,7 @@ export const GET: APIRoute = async function get(context) {
     height: 630,
     fonts: [
       { name: 'Spectral', data: inter, weight: 400, style: 'normal' },
-      { name: 'SpectralHead', data: serif, weight: 800, style: 'normal' },
+      { name: 'Spectral', data: serif, weight: 800, style: 'normal' },
     ],
   });
   const png = await sharp(Buffer.from(svg)).png().toBuffer();

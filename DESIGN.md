@@ -32,6 +32,12 @@ typography:
     fontWeight: 800
     lineHeight: 1.05
     letterSpacing: "-0.015em"
+  hero:
+    fontFamily: "Spectral, Georgia, serif"
+    fontSize: "clamp(2.75rem, 8vw, 4.75rem)"
+    fontWeight: 800
+    lineHeight: 1.05
+    letterSpacing: "-0.015em"
   headline:
     fontFamily: "Spectral, Georgia, serif"
     fontSize: "1.75rem"
@@ -53,6 +59,11 @@ typography:
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.6
+  body-sm:
+    fontFamily: "Spectral, Georgia, serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.45
   label:
     fontFamily: "Spline Sans Mono Variable, ui-monospace, monospace"
     fontSize: "0.75rem"
