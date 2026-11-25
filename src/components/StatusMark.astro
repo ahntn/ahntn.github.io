@@ -1,0 +1,47 @@
+---
+export type ProjectStatus = 'in-production' | 'in-development' | 'prototype' | 'retired';
+
+interface Props {
+  status?: ProjectStatus;
+}
+const props = Astro.props;
+const { status } = props;
+
+const words: Record<ProjectStatus, string> = {
+  'in-production': 'In production',
+  'in-development': 'In development',
+  prototype: 'Prototype',
+  retired: 'Retired',
+};
+---
+
+{status ? (
+  <span class="status">
+    <svg
+      aria-hidden="true"
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      {status === 'in-production' && <circle cx="6" cy="6" r="4.5" fill="currentColor" />}
+      {status === 'in-development' && (
+        <>
+          <circle cx="6" cy="6" r="4.5" />
+          <path d="M6 1.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor" />
+        </>
+      )}
+      {status === 'prototype' && (
+        <circle cx="6" cy="6" r="4.5" stroke-dasharray="2 1.8" />
+      )}
+      {status === 'retired' && <path d="M2 2l8 8M10 2l-8 8" />}
+    </svg>
+    {words[status]}
+  </span>
+) : (
+  <span class="todo-box" data-todo>
+    TODO: status
+  </span>
+)}

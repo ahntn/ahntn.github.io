@@ -1,0 +1,39 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/content';
+import { withBase } from '../lib/url';
+
+interface Props {
+  post: CollectionEntry<'writing'>;
+  readingTime: number;
+}
+const props = Astro.props;
+const { post, readingTime } = props;
+const { data } = post;
+---
+
+<article class="post-row">
+  <p class="label tabular">
+    <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>·{' '}
+    {readingTime} min read{data.tags.length > 0 ? ` · ${data.tags.join(', ')}` : ''}
+  </p>
+  <h3>
+    <a href={withBase(`/writing/${post.id}`)}>{data.title}</a>
+  </h3>
+  <p>{data.description}</p>
+</article>
+
+<style>
+  .post-row {
+    border-top: 1px solid var(--ink);
+    padding: 0.9rem 0 1.4rem;
+    max-width: var(--measure);
+  }
+  .post-row h3 {
+    margin: 0.3rem 0 0.3rem;
+    font-size: 1.375rem;
+  }
+  .post-row h3 a {
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+import { render } from 'astro:content';
+import Docs from '../layouts/Docs.astro';
+import { formatDate, getChangelog } from '../lib/content';
+
+const entries = await getChangelog();
+const rendered = await Promise.all(
+  entries.map(async function load(entry) {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  }),
+);
+const years = [...new Set(entries.map((e) => e.data.date.getUTCFullYear()))];
+const headings = years.map((year) => ({ slug: `y${year}`, text: String(year) }));
+---
+
+<Docs
+  title="Changelog"
+  description="Dated notes on what Anh Nguyen shipped, newest first."
+  path="/changelog"
+  crumbs={[{ label: 'Guide', href: '/' }, { label: 'Changelog' }]}
+  headings={headings}
+>
+  <h1>Changelog</h1>
+  <p class="prose">What I shipped, newest first.</p>
+  {years.map(function renderYear(year) {
+    return (
+      <section aria-labelledby={`y${year}`}>
+        <h2 id={`y${year}`}>{year}</h2>
+        {rendered
+          .filter((r) => r.entry.data.date.getUTCFullYear() === year)
+          .map(function renderEntry(item) {
+            return (
+              <article id={item.entry.id} class="entry">
+                <p class="label tabular">
+                  <time datetime={item.entry.data.date.toISOString()}>
+                    {formatDate(item.entry.data.date)}
+                  </time>
+                </p>
+                <h3>{item.entry.data.title}</h3>
+                <div class="prose">
+                  <item.Content />
+                </div>
+              </article>
+            );
+          })}
+      </section>
+    );
+  })}
+  {entries.length === 0 && (
+    <p class="prose" style="margin-top:2rem">
+      {import.meta.env.DEV ? (
+        <span class="todo-box">TODO: no changelog entries yet.</span>
+      ) : (
+        'Nothing shipped here yet.'
+      )}
+    </p>
+  )}
+</Docs>
+
+<style>
+  .entry {
+    border-top: 1px solid var(--ink);
+    padding: 0.9rem 0 1.4rem;
+    max-width: var(--measure);
+  }
+  .entry h3 {
+    margin: 0.3rem 0 0.5rem;
+    font-size: 1.375rem;
+  }
+</style>

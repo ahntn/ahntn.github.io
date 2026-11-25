@@ -1,42 +1,48 @@
 ---
 import { experience } from '../data/experience';
-import Todo from './Todo.astro';
 
 function isTodo(value: string) {
   return value.startsWith('TODO:');
 }
-function todoNote(value: string) {
-  return value.replace(/^TODO:\s*/, '');
-}
 ---
 
-<ol class="relative ml-2 border-l border-line">
+<ol class="timeline">
   {experience.map(function renderItem(item) {
     return (
-      <li class="mb-10 ml-6">
-        <span
-          class="absolute -left-[5px] mt-2 h-2.5 w-2.5 rounded-full border border-accent bg-bg"
-          aria-hidden="true"
-        />
-        <h3 class="text-xl font-semibold">
+      <li>
+        <h3>
           {isTodo(item.org) ? (
-            <Todo note={todoNote(item.org)} />
+            <span class="todo-box" data-todo>
+              {item.org}
+            </span>
           ) : item.url ? (
-            <a href={item.url} rel="noopener" class="no-underline hover:text-accent">
+            <a href={item.url} rel="noopener">
               {item.org}
             </a>
           ) : (
             item.org
           )}
         </h3>
-        <p class="text-muted">
-          {isTodo(item.role) ? <Todo note={todoNote(item.role)} /> : item.role}
+        <p class="label">
+          {isTodo(item.role) ? (
+            <span class="todo-box" data-todo>
+              {item.role}
+            </span>
+          ) : (
+            item.role
+          )}
           {' · '}
-          {isTodo(item.period) ? <Todo note={todoNote(item.period)} /> : item.period}
+          {isTodo(item.period) ? (
+            <span class="todo-box" data-todo>
+              {item.period}
+            </span>
+          ) : (
+            item.period
+          )}
         </p>
-        <p class="mt-2">{item.summary}</p>
+        <p>{item.summary}</p>
         {item.bullets.length > 0 && (
-          <ul class="mt-2 list-disc pl-5 text-muted">
+          <ul>
             {item.bullets.map((bullet) => (
               <li>{bullet}</li>
             ))}
@@ -46,3 +52,31 @@ function todoNote(value: string) {
     );
   })}
 </ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: var(--measure);
+  }
+  .timeline li:not(li li) {
+    border-top: 1px solid var(--ink);
+    padding: 1rem 0 1.5rem;
+  }
+  .timeline h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.375rem;
+  }
+  .timeline h3 a {
+    text-decoration: none;
+  }
+  .timeline p + p {
+    margin-top: 0.5rem;
+  }
+  .timeline ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.3rem;
+    color: var(--muted);
+  }
+</style>

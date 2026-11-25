@@ -1,70 +1,64 @@
 ---
 import { readFileSync } from 'node:fs';
-import Base from '../layouts/Base.astro';
+import Docs from '../layouts/Docs.astro';
 import Timeline from '../components/Timeline.astro';
-import SkillsGrid from '../components/SkillsGrid.astro';
-import Todo from '../components/Todo.astro';
+import SkillsTable from '../components/SkillsTable.astro';
 import { siteConfig } from '../../site.config';
 import { withBase } from '../lib/url';
 
-// The committed PDF is a placeholder until it contains no PLACEHOLDER marker.
+// The committed PDF is a placeholder until it no longer contains the PLACEHOLDER marker.
 const pdfIsPlaceholder = readFileSync('public/resume.pdf').includes('PLACEHOLDER');
+const headings = [
+  { slug: 'skills', text: 'Skills' },
+  { slug: 'experience', text: 'Experience' },
+];
 ---
 
-<Base
+<Docs
   title="Resume"
-  description="Resume of Anh Nguyen, senior full-stack engineer: PDF download and printable version."
+  description="Resume of Anh Nguyen, senior full-stack engineer: PDF download and a printable version."
   path="/resume"
+  crumbs={[{ label: 'Guide', href: '/' }, { label: 'Resume' }]}
+  headings={headings}
 >
-  <div class="no-print mt-8 flex flex-wrap items-center gap-4">
-    <h1 class="mr-auto text-5xl font-semibold">Resume</h1>
-    <a
-      href={withBase(siteConfig.resumePdf)}
-      class="rounded-md bg-accent px-4 py-2 font-medium text-accent-fg no-underline"
-      download
-    >
+  <h1>Resume</h1>
+  <p class="no-print" style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1rem">
+    <a class="btn" href={withBase(siteConfig.resumePdf)} download>
       Download PDF
     </a>
-    <button
-      type="button"
-      id="print-btn"
-      class="rounded-md border border-line px-4 py-2 font-medium"
-    >
+    <button type="button" id="print-btn" class="btn btn-quiet">
       Print this page
     </button>
-  </div>
+  </p>
   {pdfIsPlaceholder && (
-    <p class="no-print mt-4">
-      <Todo note="replace public/resume.pdf with your real resume." />
+    <p class="todo-box no-print" style="margin-top:1rem">
+      TODO: replace public/resume.pdf with your real resume.
     </p>
   )}
 
-  <article class="mt-10 max-w-3xl" aria-label="Resume">
-    <header class="mb-8">
-      <h2 class="text-4xl font-semibold">{siteConfig.name}</h2>
-      <p class="text-lg">{siteConfig.jobTitle}</p>
-      <p class="text-muted">
-        {siteConfig.location} · Canadian citizen ·{' '}
-        {siteConfig.links.linkedin.replace('https://www.', '')}·{' '}
-        {siteConfig.links.github.replace('https://', '')}
-      </p>
-      <p class="mt-4">
-        {siteConfig.positioning} {siteConfig.openToWork}
-      </p>
-    </header>
-    <section class="mb-10">
-      <h2 class="mb-4 text-2xl font-semibold">Skills</h2>
-      <SkillsGrid />
-    </section>
-    <section>
-      <h2 class="mb-6 text-2xl font-semibold">Experience</h2>
-      <Timeline />
-    </section>
-  </article>
+  <section style="margin-top:2rem" aria-label="Summary">
+    <p class="lede" style="max-width:40ch">
+      {siteConfig.jobTitle}
+    </p>
+    <p class="prose">
+      {siteConfig.location} · Canadian citizen ·{' '}
+      {siteConfig.links.linkedin.replace('https://www.', '')} ·
+      {siteConfig.links.github.replace('https://', '')}
+    </p>
+    <p class="prose" style="margin-top:0.75rem">
+      {siteConfig.positioning} {siteConfig.openToWork}
+    </p>
+  </section>
+
+  <h2 id="skills">Skills</h2>
+  <SkillsTable />
+
+  <h2 id="experience">Experience</h2>
+  <Timeline />
 
   <script>
     document.getElementById('print-btn')?.addEventListener('click', function onClick() {
       window.print();
     });
   </script>
-</Base>
+</Docs>

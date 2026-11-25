@@ -5,23 +5,36 @@ order: 2
 draft: true
 featured: true
 stack: []
+# status: in-development   # in-production | in-development | prototype | retired
+# version: '0.1'
+# updated: 2026-01-01
 # demo: https://example.com
 # code: https://github.com/ahntn/repo   # leave empty for private code
 # image: /images/unfolio.png
 # imageAlt: 'TODO: describe the screenshot'
 ---
 
+## Overview
+
+TODO: what this service is, in two sentences.
+
 ## Problem
 
 TODO: what problem did this solve, and for whom?
 
-## What I built
+## Architecture
 
-TODO: what you personally built.
+TODO: add a diagram (put the file in public/diagrams/ and reference it as an image) and a short walkthrough.
 
-## Architecture notes
+## Stack
 
-TODO: key design decisions and trade-offs.
+```text
+TODO: list the stack as field marks, one layer per line
+```
+
+## Key decisions
+
+TODO: two or three decisions with the trade-off you accepted.
 
 ## What I learned
 

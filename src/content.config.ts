@@ -11,6 +11,11 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
     role: z.string().optional(),
+    status: z
+      .enum(['in-production', 'in-development', 'prototype', 'retired'])
+      .optional(),
+    version: z.string().optional(),
+    updated: z.coerce.date().optional(),
     stack: z.array(z.string()).default([]),
     demo: z.url().optional(),
     // Optional. Private repos (e.g. Gambasoft apps) leave this empty.
@@ -35,4 +40,13 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { projects, writing };
+const changelog = defineCollection({
+  loader: glob({ base: './src/content/changelog', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, writing, changelog };

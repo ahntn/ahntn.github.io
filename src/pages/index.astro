@@ -1,9 +1,8 @@
 ---
-import Base from '../layouts/Base.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import PostItem from '../components/PostItem.astro';
-import ContactLinks from '../components/ContactLinks.astro';
-import Todo from '../components/Todo.astro';
+import Docs from '../layouts/Docs.astro';
+import Plate from '../components/Plate.astro';
+import PostRow from '../components/PostRow.astro';
+import Callout from '../components/Callout.astro';
 import { siteConfig } from '../../site.config';
 import { getPosts, getProjects } from '../lib/content';
 import { getReadingTime } from '../lib/reading-time';
@@ -13,6 +12,12 @@ const projects = (await getProjects()).filter((p) => p.data.featured).slice(0, 3
 const posts = (await getPosts()).slice(0, 2);
 const postTimes = await Promise.all(posts.map(getReadingTime));
 const isDev = import.meta.env.DEV;
+
+const headings = [
+  ...(projects.length > 0 ? [{ slug: 'projects', text: 'Projects' }] : []),
+  ...(posts.length > 0 || isDev ? [{ slug: 'writing', text: 'Latest writing' }] : []),
+  { slug: 'contact', text: 'Contact' },
+];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -32,69 +37,63 @@ const jsonLd = {
 };
 ---
 
-<Base path="/" jsonLd={jsonLd}>
-  <section class="py-12 sm:py-20">
-    <p class="mb-4 font-mono text-sm text-muted">{siteConfig.location}</p>
-    <h1 class="text-5xl font-semibold sm:text-7xl">{siteConfig.name}</h1>
-    <p class="mt-6 max-w-2xl font-serif text-2xl leading-snug sm:text-3xl">
-      {siteConfig.positioning}
-    </p>
-    <p class="mt-8 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm">
-      <span class="h-2 w-2 rounded-full bg-green-600" aria-hidden="true"></span>
-      {siteConfig.openToWork}
-    </p>
-  </section>
+<Docs
+  path="/"
+  crumbs={[{ label: 'Guide' }, { label: 'Overview' }]}
+  headings={headings}
+  jsonLd={jsonLd}
+>
+  <h1 style="font-size:clamp(2.75rem,8vw,4.75rem);margin-top:1.25rem">
+    {siteConfig.name}
+  </h1>
+  <p class="lede">{siteConfig.positioning}</p>
+  <div style="margin-top:1.5rem">
+    <Callout title={siteConfig.openToWork}>
+      <a class="btn" href={siteConfig.links.linkedin} rel="noopener">
+        Contact on LinkedIn →
+      </a>
+    </Callout>
+  </div>
 
   {projects.length > 0 && (
-    <section class="py-10" aria-labelledby="featured">
-      <div class="mb-6 flex items-baseline justify-between">
-        <h2 id="featured" class="text-3xl font-semibold">
-          Featured projects
-        </h2>
-        <a href={withBase('/projects')} class="text-sm underline">
-          All projects
-        </a>
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => (
-          <ProjectCard project={project} />
+    <section aria-labelledby="projects">
+      <h2 id="projects">Projects</h2>
+      <div class="plates">
+        {projects.map((project, index) => (
+          <Plate project={project} number={index + 1} />
         ))}
       </div>
+      <p style="margin-top:1rem">
+        <a href={withBase('/projects')}>All projects</a>
+      </p>
     </section>
   )}
 
   {(posts.length > 0 || isDev) && (
-    <section class="py-10" aria-labelledby="latest">
-      <div class="mb-6 flex items-baseline justify-between">
-        <h2 id="latest" class="text-3xl font-semibold">
-          Latest writing
-        </h2>
-        <a href={withBase('/writing')} class="text-sm underline">
-          All posts
-        </a>
-      </div>
-      <div class="flex flex-col gap-8">
-        {posts.map((post, index) => (
-          <PostItem post={post} readingTime={postTimes[index]} />
-        ))}
-        {posts.length === 0 && (
-          <Todo note="publish a first post (hidden in production while empty)." />
-        )}
-      </div>
+    <section aria-labelledby="writing">
+      <h2 id="writing">Latest writing</h2>
+      {posts.map((post, index) => (
+        <PostRow post={post} readingTime={postTimes[index]} />
+      ))}
+      {posts.length === 0 && (
+        <p class="todo-box">
+          TODO: publish a first post (hidden in production while empty).
+        </p>
+      )}
+      <p style="margin-top:1rem">
+        <a href={withBase('/writing')}>All writing</a>
+      </p>
     </section>
   )}
 
-  <section class="py-10" id="contact" aria-labelledby="contact-title">
-    <h2 id="contact-title" class="mb-4 text-3xl font-semibold">
-      Contact
-    </h2>
-    <p class="mb-4 max-w-xl text-muted">
+  <section aria-labelledby="contact">
+    <h2 id="contact">Contact</h2>
+    <p class="prose">
       The best way to reach me is LinkedIn. I'm also the founder of
-      <a class="underline" href={siteConfig.links.gambasoft} rel="noopener">
+      <a href={siteConfig.links.gambasoft} rel="noopener">
         Gambasoft
       </a>
       , where I build our own products and take on client work in web, cloud and AI.
     </p>
-    <ContactLinks />
   </section>
-</Base>
+</Docs>

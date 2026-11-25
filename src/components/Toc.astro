@@ -1,0 +1,57 @@
+---
+interface Heading {
+  slug: string;
+  text: string;
+}
+interface Props {
+  headings: Heading[];
+}
+const props = Astro.props;
+const { headings } = props;
+---
+
+{headings.length > 1 && (
+  <>
+    <nav class="toc no-print" aria-label="On this page" data-pagefind-ignore>
+      <span class="label">On this page</span>
+      <ul>
+        {headings.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </>
+)}
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const targets = links
+    .map(function find(link) {
+      return document.getElementById(link.hash.slice(1));
+    })
+    .filter(function present(el): el is HTMLElement {
+      return el !== null;
+    });
+  if (targets.length > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      function onChange(entries) {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            for (const link of links) {
+              link.setAttribute(
+                'aria-current',
+                String(link.hash === `#${entry.target.id}`),
+              );
+            }
+          }
+        }
+      },
+      { rootMargin: '-10% 0px -75% 0px' },
+    );
+    for (const target of targets) {
+      observer.observe(target);
+    }
+  }
+</script>

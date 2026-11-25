@@ -1,0 +1,251 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../../site.config';
+import { absolute, withBase } from '../lib/url';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Search from '../components/Search.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Toc from '../components/Toc.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Heading {
+  slug: string;
+  text: string;
+}
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path of this page, e.g. "/about". Used for canonical + OG. */
+  path: string;
+  crumbs?: Crumb[];
+  /** Headings for the "On this page" list (h2 only). */
+  headings?: Heading[];
+  ogSlug?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+const {
+  title,
+  description = siteConfig.description,
+  path,
+  crumbs = [],
+  headings = [],
+  ogSlug = 'default',
+  type = 'website',
+  jsonLd,
+  noindex = false,
+} = props;
+
+const fullTitle = title ? `${title} · ${siteConfig.name}` : siteConfig.title;
+const canonical = absolute(path);
+const ogImage = absolute(`/og/${ogSlug}.png`);
+
+const nav = [
+  { href: '/', label: 'Overview' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/changelog', label: 'Changelog' },
+  { href: '/about', label: 'About' },
+  { href: '/resume', label: 'Resume' },
+  { href: '/#contact', label: 'Contact' },
+];
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+function isActive(href: string) {
+  const target = withBase(href.split('#')[0]).replace(/\/$/, '') || '/';
+  if (href.includes('#')) {
+    return false;
+  }
+  return target === '/'
+    ? current === '/'
+    : current === target || current.startsWith(`${target}/`);
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${siteConfig.name} — Writing`}
+      href={withBase('/rss.xml')}
+    />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    <script is:inline>
+      (function () {
+        let theme;
+        try {
+          theme = localStorage.getItem('theme');
+        } catch {
+          theme = null;
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main" class="skip-link">
+      Skip to content
+    </a>
+    <div class="shell">
+      <aside class="rail" id="rail" aria-label="Site" data-pagefind-ignore>
+        <div>
+          <a href={withBase('/')} class="rail-name">
+            {siteConfig.name}
+          </a>
+          <span class="rail-sub">Field guide to services</span>
+        </div>
+        <nav class="rail-nav" aria-label="Main">
+          <ul>
+            {nav.map(function renderItem(item) {
+              const active = isActive(item.href);
+              return (
+                <li>
+                  <a
+                    href={withBase(item.href)}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+        <p class="rail-foot">
+          {siteConfig.location}
+          <br />
+          Canadian citizen
+        </p>
+      </aside>
+      <div class="scrim" id="scrim" hidden></div>
+
+      <div>
+        <header class="topbar">
+          <button
+            type="button"
+            class="icon-btn menu-btn"
+            id="menu-btn"
+            aria-controls="rail"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Menu</span>
+            <svg
+              aria-hidden="true"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+            >
+              <path d="M4 7h16M4 12h16M4 17h16"></path>
+            </svg>
+          </button>
+          <Search />
+          <ThemeToggle />
+        </header>
+
+        <div class="page">
+          <main id="main" class="doc" data-pagefind-body>
+            {crumbs.length > 0 && <Breadcrumbs crumbs={crumbs} />}
+            {headings.length > 1 && (
+              <details class="toc-inline no-print" data-pagefind-ignore>
+                <summary>On this page</summary>
+                <ul>
+                  {headings.map((heading) => (
+                    <li>
+                      <a href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
+            <slot />
+            <footer class="site-foot" data-pagefind-ignore>
+              <ContactLinks />
+              <p>
+                {siteConfig.name} · {siteConfig.location} ·
+                <a href={withBase('/rss.xml')}>RSS</a>
+              </p>
+            </footer>
+          </main>
+          <Toc headings={headings} />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const rail = document.getElementById('rail');
+      const scrim = document.getElementById('scrim');
+      const button = document.getElementById('menu-btn');
+      function setOpen(open: boolean) {
+        rail?.setAttribute('data-open', String(open));
+        button?.setAttribute('aria-expanded', String(open));
+        if (scrim) {
+          scrim.hidden = !open;
+        }
+        if (open) {
+          rail?.querySelector<HTMLElement>('a')?.focus();
+        } else {
+          button?.focus();
+        }
+      }
+      button?.addEventListener('click', function onClick() {
+        setOpen(rail?.getAttribute('data-open') !== 'true');
+      });
+      scrim?.addEventListener('click', function onClick() {
+        setOpen(false);
+      });
+      rail?.addEventListener('click', function onClick(event) {
+        if (
+          (event.target as HTMLElement).closest('a[href]') &&
+          rail.getAttribute('data-open') === 'true'
+        ) {
+          rail.setAttribute('data-open', 'false');
+          button?.setAttribute('aria-expanded', 'false');
+          if (scrim) {
+            scrim.hidden = true;
+          }
+        }
+      });
+      document.addEventListener('keydown', function onKey(event) {
+        if (event.key === 'Escape' && rail?.getAttribute('data-open') === 'true') {
+          setOpen(false);
+        }
+      });
+    </script>
+  </body>
+</html>

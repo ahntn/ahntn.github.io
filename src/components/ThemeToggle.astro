@@ -1,10 +1,5 @@
-<button
-  type="button"
-  id="theme-toggle"
-  class="no-print rounded-md border border-line p-2 text-muted hover:text-fg"
-  aria-label="Toggle colour theme"
-  aria-pressed="false"
->
+<button type="button" id="theme-toggle" class="icon-btn no-print" aria-pressed="false">
+  <span class="sr-only">Dark theme</span>
   <svg
     aria-hidden="true"
     width="18"
@@ -12,12 +7,11 @@
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    stroke-width="2"
+    stroke-width="1.75"
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <circle cx="12" cy="12" r="4"></circle>
-    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+    <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path>
   </svg>
 </button>
 
@@ -35,9 +29,20 @@
     try {
       localStorage.setItem('theme', next);
     } catch {
-      // storage unavailable: theme still applies for this page view
+      // storage unavailable: the theme still applies for this page view
     }
     sync();
   });
   sync();
 </script>
+
+<style is:global>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

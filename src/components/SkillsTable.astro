@@ -1,0 +1,25 @@
+---
+import { skillGroups } from '../data/skills';
+---
+
+<table class="spec" aria-label="Skills by depth">
+  <tbody>
+    {skillGroups.map(function renderGroup(group) {
+      return (
+        <tr>
+          <th scope="row">{group.depth}</th>
+          <td>
+            <ul class="pills">
+              {group.skills.map((skill) => (
+                <li>{skill}</li>
+              ))}
+            </ul>
+            <p style="margin-top:0.4rem;font-size:0.9375rem;color:var(--muted)">
+              {group.blurb}
+            </p>
+          </td>
+        </tr>
+      );
+    })}
+  </tbody>
+</table>

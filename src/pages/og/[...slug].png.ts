@@ -6,10 +6,10 @@ import { siteConfig } from '../../../site.config';
 import { getPosts, getProjects } from '../../lib/content';
 
 const inter = readFileSync(
-  'node_modules/@fontsource/inter/files/inter-latin-400-normal.woff',
+  'node_modules/@fontsource/spectral/files/spectral-latin-400-normal.woff',
 );
 const serif = readFileSync(
-  'node_modules/@fontsource/newsreader/files/newsreader-latin-600-normal.woff',
+  'node_modules/@fontsource/spectral/files/spectral-latin-800-normal.woff',
 );
 
 interface Card {
@@ -55,14 +55,14 @@ export const GET: APIRoute = async function get(context) {
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: '72px',
-        background: '#fbfaf7',
-        color: '#1a1916',
+        background: '#17483a',
+        color: '#eef0e9',
       },
       children: [
         {
           type: 'div',
           props: {
-            style: { fontFamily: 'Inter', fontSize: 28, color: '#b4380f' },
+            style: { fontFamily: 'Spectral', fontSize: 28, color: '#ff7a52' },
             children: isDefault ? siteConfig.location : siteConfig.name,
           },
         },
@@ -75,7 +75,7 @@ export const GET: APIRoute = async function get(context) {
                 type: 'div',
                 props: {
                   style: {
-                    fontFamily: 'Newsreader',
+                    fontFamily: 'SpectralHead',
                     fontSize: isDefault ? 110 : 80,
                     lineHeight: 1.05,
                   },
@@ -86,9 +86,9 @@ export const GET: APIRoute = async function get(context) {
                 type: 'div',
                 props: {
                   style: {
-                    fontFamily: 'Inter',
+                    fontFamily: 'Spectral',
                     fontSize: 34,
-                    color: '#5c5851',
+                    color: '#a9cbbb',
                     lineHeight: 1.35,
                   },
                   children:
@@ -101,7 +101,7 @@ export const GET: APIRoute = async function get(context) {
         {
           type: 'div',
           props: {
-            style: { fontFamily: 'Inter', fontSize: 26, color: '#5c5851' },
+            style: { fontFamily: 'Spectral', fontSize: 26, color: '#a9cbbb' },
             children: new URL(siteConfig.site).host,
           },
         },
@@ -113,8 +113,8 @@ export const GET: APIRoute = async function get(context) {
     width: 1200,
     height: 630,
     fonts: [
-      { name: 'Inter', data: inter, weight: 400, style: 'normal' },
-      { name: 'Newsreader', data: serif, weight: 600, style: 'normal' },
+      { name: 'Spectral', data: inter, weight: 400, style: 'normal' },
+      { name: 'SpectralHead', data: serif, weight: 800, style: 'normal' },
     ],
   });
   const png = await sharp(Buffer.from(svg)).png().toBuffer();

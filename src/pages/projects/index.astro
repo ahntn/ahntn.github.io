@@ -1,34 +1,35 @@
 ---
-import Base from '../../layouts/Base.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import Todo from '../../components/Todo.astro';
+import Docs from '../../layouts/Docs.astro';
+import Plate from '../../components/Plate.astro';
 import { getProjects } from '../../lib/content';
 
 const projects = await getProjects();
 ---
 
-<Base
+<Docs
   title="Projects"
-  description="Selected projects by Anh Nguyen: problem, what I built, stack and what I learned."
+  description="Projects by Anh Nguyen, each written up as an architecture page: problem, architecture, stack, key decisions and what I learned."
   path="/projects"
+  crumbs={[{ label: 'Guide', href: '/' }, { label: 'Projects' }]}
 >
-  <h1 class="mt-8 text-5xl font-semibold">Projects</h1>
-  <p class="mt-4 max-w-2xl text-lg text-muted">
-    Selected work. Code for my Gambasoft apps is private, so some projects have a demo but
-    no repository.
+  <h1>Projects</h1>
+  <p class="prose">
+    Each app is a plate in this guide, written up as an architecture page. Code for my
+    Gambasoft apps is private, so a project may have a demo and a write-up but no
+    repository.
   </p>
-  <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {projects.map((project) => (
-      <ProjectCard project={project} />
+  <div class="plates" style="margin-top:2rem">
+    {projects.map((project, index) => (
+      <Plate project={project} number={index + 1} />
     ))}
   </div>
   {projects.length === 0 && (
-    <p class="mt-10 text-muted">
+    <p class="prose" style="margin-top:2rem">
       {import.meta.env.DEV ? (
-        <Todo note="no published projects yet." />
+        <span class="todo-box">TODO: no published projects yet.</span>
       ) : (
         'Projects are coming soon.'
       )}
     </p>
   )}
-</Base>
+</Docs>

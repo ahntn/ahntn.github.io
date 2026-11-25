@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/url';
+import StatusMark from './StatusMark.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  number: number;
+}
+const props = Astro.props;
+const { project, number } = props;
+const { data } = project;
+---
+
+<article class="plate">
+  <span class="plate-no">
+    Plate {number}
+    {data.draft ? ' · draft' : ''}
+  </span>
+  <h3>
+    <a href={withBase(`/projects/${project.id}`)}>{data.title}</a>
+  </h3>
+  <p>{data.summary}</p>
+  <dl class="marks">
+    <div>
+      <dt>Field marks</dt>
+      <dd>
+        {data.stack.length > 0 ? (
+          data.stack.join(' · ')
+        ) : (
+          <span class="todo-box" data-todo>
+            TODO: stack
+          </span>
+        )}
+      </dd>
+    </div>
+    <div>
+      <dt>Status</dt>
+      <dd>
+        <StatusMark status={data.status} />
+      </dd>
+    </div>
+  </dl>
+</article>

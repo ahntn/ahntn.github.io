@@ -20,6 +20,15 @@ export async function getPosts() {
   });
 }
 
+export async function getChangelog() {
+  const entries = await getCollection('changelog', function keep(entry) {
+    return showDrafts || !entry.data.draft;
+  });
+  return entries.sort(function byDate(a, b) {
+    return b.data.date.valueOf() - a.data.date.valueOf();
+  });
+}
+
 export function formatDate(date: Date) {
   return date.toLocaleDateString('en-CA', {
     year: 'numeric',

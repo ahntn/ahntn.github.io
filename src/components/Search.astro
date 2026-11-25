@@ -1,0 +1,159 @@
+---
+import { withBase } from '../lib/url';
+const base = withBase('/pagefind/pagefind.js');
+---
+
+<div class="search no-print" data-pagefind-ignore data-src={base}>
+  <label class="sr-only" for="search-input">
+    Search this site
+  </label>
+  <input
+    id="search-input"
+    type="search"
+    placeholder="Search"
+    autocomplete="off"
+    spellcheck="false"
+    aria-controls="search-panel"
+    aria-expanded="false"
+  />
+  <kbd aria-hidden="true">/</kbd>
+  <div id="search-panel" class="search-panel" hidden>
+    <p class="search-note" role="status" aria-live="polite"></p>
+    <div class="search-results"></div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.search');
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const panel = document.getElementById('search-panel');
+  const note = panel?.querySelector<HTMLElement>('.search-note');
+  const list = panel?.querySelector<HTMLElement>('.search-results');
+  interface PagefindResult {
+    data: () => Promise<{ url: string; excerpt: string; meta?: { title?: string } }>;
+  }
+  interface Pagefind {
+    debouncedSearch: (query: string) => Promise<{ results: PagefindResult[] } | null>;
+  }
+  let pagefind: Pagefind | null = null;
+  let loading: Promise<void> | null = null;
+  let timer: number | undefined;
+
+  function setOpen(open: boolean) {
+    if (!panel || !input) {
+      return;
+    }
+    panel.hidden = !open;
+    input.setAttribute('aria-expanded', String(open));
+  }
+
+  function loadPagefind() {
+    if (loading) {
+      return loading;
+    }
+    loading = (async function load() {
+      try {
+        const src = root?.dataset.src ?? '/pagefind/pagefind.js';
+        pagefind = await import(/* @vite-ignore */ src);
+      } catch {
+        pagefind = null;
+      }
+    })();
+    return loading;
+  }
+
+  async function run(query: string) {
+    if (!note || !list) {
+      return;
+    }
+    list.replaceChildren();
+    if (query.trim().length < 2) {
+      note.textContent = 'Type at least two letters.';
+      return;
+    }
+    await loadPagefind();
+    if (!pagefind) {
+      note.textContent =
+        'Search is built with the site. Run a production build to try it.';
+      return;
+    }
+    const search = await pagefind.debouncedSearch(query);
+    if (search === null) {
+      return;
+    }
+    const results = await Promise.all(
+      search.results.slice(0, 6).map(function load(item) {
+        return item.data();
+      }),
+    );
+    note.textContent =
+      results.length === 0
+        ? `No results for "${query}".`
+        : `${results.length} result${results.length === 1 ? '' : 's'}`;
+    for (const data of results) {
+      const link = document.createElement('a');
+      link.href = data.url;
+      const title = document.createElement('strong');
+      title.textContent = data.meta?.title ?? data.url;
+      const excerpt = document.createElement('small');
+      excerpt.innerHTML = data.excerpt;
+      link.append(title, excerpt);
+      list.append(link);
+    }
+  }
+
+  input?.addEventListener('focus', function onFocus() {
+    setOpen(true);
+    if (note && !note.textContent) {
+      note.textContent = 'Type at least two letters.';
+    }
+    void loadPagefind();
+  });
+  input?.addEventListener('input', function onInput() {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(function later() {
+      void run(input.value);
+    }, 120);
+  });
+  input?.addEventListener('keydown', function onKey(event) {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      list?.querySelector<HTMLElement>('a')?.focus();
+    }
+    if (event.key === 'Escape') {
+      input.value = '';
+      setOpen(false);
+      input.blur();
+    }
+  });
+  list?.addEventListener('keydown', function onKey(event) {
+    const links = [...(list.querySelectorAll('a') as NodeListOf<HTMLElement>)];
+    const index = links.indexOf(document.activeElement as HTMLElement);
+    if (event.key === 'ArrowDown' && index < links.length - 1) {
+      event.preventDefault();
+      links[index + 1].focus();
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      (index > 0 ? links[index - 1] : input)?.focus();
+    }
+    if (event.key === 'Escape') {
+      setOpen(false);
+      input?.focus();
+    }
+  });
+  document.addEventListener('keydown', function onSlash(event) {
+    const target = event.target as HTMLElement;
+    const typing =
+      /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable;
+    if (event.key === '/' && !typing) {
+      event.preventDefault();
+      input?.focus();
+    }
+  });
+  document.addEventListener('click', function onClick(event) {
+    if (root && !root.contains(event.target as Node)) {
+      setOpen(false);
+    }
+  });
+</script>
