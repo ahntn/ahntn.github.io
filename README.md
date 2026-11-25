@@ -13,7 +13,7 @@ Restart the dev server if new Tailwind classes do not appear after adding new fi
 
 | Command                                      | What it does                                           |
 | -------------------------------------------- | ------------------------------------------------------ |
-| `npm run build`                              | Production build, then fails if any `TODO:` is left    |
+| `npm run build`                              | Build, index search (Pagefind), then fail if any `TODO:` is left |
 | `npm run check:links`                        | Verifies internal links and assets in `dist/`          |
 | `npm run lint` / `npm run format:check`      | ESLint / Prettier                                      |
 | `npm run check`                              | Astro and TypeScript type check                        |
@@ -43,7 +43,15 @@ The file name is the URL slug. Reading time, RSS (`/rss.xml`), the social image 
 
 ## Adding a project
 
-Create `src/content/projects/my-project.md`. Frontmatter: `title`, `summary`, `stack`, `order`, `featured`, `draft`, and optionally `role`, `demo`, `code`, `image` + `imageAlt` (file in `public/`), `video`. Leave `code` out for private repos; the layout handles it. The body uses the sections Problem, What I built, Architecture notes, What I learned. Set `draft: false` to publish.
+Create `src/content/projects/my-project.md`. Frontmatter: `title`, `summary`, `stack`, `status` (`in-production`, `in-development`, `prototype`, `retired`), `version`, `updated`, `order`, `featured`, `draft`, and optionally `role`, `demo`, `code`, `diagram` + `diagramAlt` (Fig. 1, a file in `public/`), `image` + `imageAlt`, `video`. Leave `code` out for private repos; the layout handles it. The body uses the sections Overview, Problem, Architecture, Stack, Key decisions, What I learned. Set `draft: false` to publish. A published project missing `status`, `version`, `updated` or `stack` shows a TODO and fails the build.
+
+## Adding a changelog entry
+
+Create `src/content/changelog/2026-02-01-short-title.md` with `title`, `date` and optionally `draft`. Entries are grouped by year, newest first.
+
+## Search
+
+Search uses Pagefind. The index is built by `npm run build`, so search only works against a built site (`npm run build && npm run preview`), not in `npm run dev`.
 
 ## TODO placeholders
 
