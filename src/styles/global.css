@@ -24,6 +24,9 @@
   --pointer: #b93a17;
   --pointer-ink: #ffffff;
   --measure: 66ch;
+  --todo-line: #d00000;
+  --todo-bg: #fff3f3;
+  --todo-ink: #8a0000;
 }
 
 :root[data-theme='dark'] {
@@ -37,6 +40,9 @@
   --cloth-deep: #0b2a21;
   --pointer: #ff7a52;
   --pointer-ink: #0f1a16;
+  --todo-line: #ff6b6b;
+  --todo-bg: #2a1414;
+  --todo-ink: #ffb3b3;
 }
 
 @theme inline {
@@ -727,9 +733,9 @@ h1 {
 /* TODO placeholders: loud in dev; the production build fails if one ships */
 .todo-box {
   display: inline-block;
-  border: 2px dashed #d00;
-  background: #fff3f3;
-  color: #8a0000;
+  border: 2px dashed var(--todo-line);
+  background: var(--todo-bg);
+  color: var(--todo-ink);
   padding: 0.25rem 0.6rem;
   font-family: var(--font-mono);
   font-size: 0.8125rem;

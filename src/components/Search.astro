@@ -13,13 +13,20 @@ const base = withBase('/pagefind/pagefind.js');
     placeholder="Search"
     autocomplete="off"
     spellcheck="false"
-    aria-controls="search-panel"
+    role="combobox"
+    aria-controls="search-results"
+    aria-autocomplete="list"
     aria-expanded="false"
   />
   <kbd aria-hidden="true">/</kbd>
   <div id="search-panel" class="search-panel" hidden>
     <p class="search-note" role="status" aria-live="polite"></p>
-    <div class="search-results"></div>
+    <div
+      class="search-results"
+      id="search-results"
+      role="listbox"
+      aria-label="Search results"
+    ></div>
   </div>
 </div>
 
@@ -93,6 +100,7 @@ const base = withBase('/pagefind/pagefind.js');
     for (const data of results) {
       const link = document.createElement('a');
       link.href = data.url;
+      link.setAttribute('role', 'option');
       const title = document.createElement('strong');
       title.textContent = data.meta?.title ?? data.url;
       const excerpt = document.createElement('small');
