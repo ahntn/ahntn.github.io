@@ -14,10 +14,6 @@ const isDev = import.meta.env.DEV;
 ---
 
 <article class="plate">
-  <span class="plate-no">
-    No. {number}
-    {data.draft ? ' · draft' : ''}
-  </span>
   {data.diagram ? (
     <figure class="figure">
       <img
@@ -41,6 +37,7 @@ const isDev = import.meta.env.DEV;
   )}
   <h3>
     <a href={withBase(`/projects/${project.id}`)}>{data.title}</a>
+    <span class="plate-no">No. {number}</span>
   </h3>
   <p>{data.summary}</p>
   <ProjectKey project={project} />

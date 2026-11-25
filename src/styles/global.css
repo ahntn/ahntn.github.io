@@ -163,8 +163,9 @@ table,
   list-style: none;
   margin: 0;
   padding: 0;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 600;
 }
 .rail-nav li {
   border-bottom: 1px solid var(--cloth-rule);
@@ -397,11 +398,10 @@ h1 {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1.5rem;
-  max-width: 42rem;
 }
 .callout-title {
-  font-family: var(--font-mono);
-  font-size: 0.9375rem;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
   font-weight: 600;
 }
 .btn {
@@ -410,8 +410,8 @@ h1 {
   gap: 0.5rem;
   background: var(--pointer);
   color: var(--pointer-ink);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
   font-weight: 600;
   padding: 0.65rem 1rem;
   text-decoration: none;
@@ -456,9 +456,13 @@ h1 {
   color: var(--muted);
 }
 .plate h3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
   font-size: 1.375rem;
   line-height: 1.15;
-  margin: 0.3rem 0 0.4rem;
+  margin: 0.6rem 0 0.4rem;
 }
 .plate h3 a {
   text-decoration: none;
@@ -598,7 +602,7 @@ h1 {
   background: var(--plate);
   color: var(--ink);
   padding: 0 2.75rem 0 0.9rem;
-  font: 0.875rem var(--font-mono);
+  font: 1rem var(--font-serif);
 }
 .search input::placeholder {
   color: var(--muted);
@@ -663,6 +667,7 @@ h1 {
 /* Footer */
 .site-foot {
   border-top: 1px solid var(--rule);
+  margin-top: 4rem;
   padding: 1.5rem 0 3rem;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
@@ -678,6 +683,8 @@ h1 {
 }
 .site-foot a {
   color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
