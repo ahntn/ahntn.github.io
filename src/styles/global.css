@@ -118,6 +118,13 @@ table,
   display: grid;
   grid-template-columns: 17rem minmax(0, 1fr);
   min-height: 100vh;
+  /* The cloth runs the full height of the page, not only the sticky rail's 100vh */
+  background: linear-gradient(
+    90deg,
+    var(--cloth) calc(17rem - 6px),
+    var(--cloth-deep) calc(17rem - 6px) 17rem,
+    var(--paper) 17rem
+  );
 }
 .rail {
   position: sticky;
@@ -783,6 +790,7 @@ p.todo-box {
 @media (max-width: 52rem) {
   .shell {
     grid-template-columns: minmax(0, 1fr);
+    background: var(--paper);
   }
   .rail {
     position: fixed;

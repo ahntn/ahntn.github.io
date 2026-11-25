@@ -11,6 +11,7 @@ export default defineConfig({
   site: siteConfig.site,
   base: siteConfig.base,
   trailingSlash: 'never',
+  devToolbar: { enabled: false },
   build: { format: 'file' },
   integrations: [mdx()],
   markdown: {
