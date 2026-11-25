@@ -1,0 +1,23 @@
+---
+import Docs from '../layouts/Docs.astro';
+import { withBase } from '../lib/url';
+---
+
+<Docs
+  title="Page not found"
+  description="This page does not exist."
+  path="/404"
+  noindex
+  crumbs={[{ label: 'Guide', href: '/' }, { label: 'Not found' }]}
+>
+  <h1>Page not found</h1>
+  <p class="lede">That address is not in this guide.</p>
+  <p class="actions" style="margin-top:1.5rem">
+    <a class="btn" href={withBase('/')}>
+      Back to the overview
+    </a>
+    <a class="btn btn-quiet" href={withBase('/projects')}>
+      Projects
+    </a>
+  </p>
+</Docs>
