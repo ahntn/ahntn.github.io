@@ -49,9 +49,14 @@ const jsonLd = {
   <p class="lede">{siteConfig.positioning}</p>
   <div style="margin-top:1.5rem">
     <Callout title={siteConfig.openToWork}>
-      <a class="btn" href={siteConfig.links.linkedin} rel="noopener">
-        Contact on LinkedIn →
-      </a>
+      <div class="actions">
+        <a class="btn" href={siteConfig.links.linkedin} rel="noopener">
+          Contact on LinkedIn →
+        </a>
+        <a class="btn btn-quiet" href={withBase('/resume')}>
+          Resume
+        </a>
+      </div>
     </Callout>
   </div>
 
@@ -63,7 +68,7 @@ const jsonLd = {
           <Plate project={project} number={index + 1} />
         ))}
       </div>
-      <p style="margin-top:1rem">
+      <p class="more">
         <a href={withBase('/projects')}>All projects</a>
       </p>
     </section>
@@ -80,7 +85,7 @@ const jsonLd = {
           TODO: publish a first post (hidden in production while empty).
         </p>
       )}
-      <p style="margin-top:1rem">
+      <p class="more">
         <a href={withBase('/writing')}>All writing</a>
       </p>
     </section>
@@ -93,7 +98,15 @@ const jsonLd = {
       <a href={siteConfig.links.gambasoft} rel="noopener">
         Gambasoft
       </a>
-      , where I build our own products and take on client work in web, cloud and AI.
+      {', where I build our own products and take on client work in web, cloud and AI.'}
     </p>
+    <div class="actions" style="margin-top:1rem">
+      <a class="btn" href={siteConfig.links.linkedin} rel="noopener">
+        Contact on LinkedIn →
+      </a>
+      <a class="btn btn-quiet" href={withBase('/resume')}>
+        Resume
+      </a>
+    </div>
   </section>
 </Docs>

@@ -40,11 +40,19 @@ const headings = [
     <p class="lede" style="max-width:40ch">
       {siteConfig.jobTitle}
     </p>
-    <p class="prose">
-      {siteConfig.location} · Canadian citizen ·{' '}
-      {siteConfig.links.linkedin.replace('https://www.', '')} ·
-      {siteConfig.links.github.replace('https://', '')}
-    </p>
+    <p class="prose">{siteConfig.location} · Canadian citizen</p>
+    <ul class="inline-list">
+      <li>
+        <a href={siteConfig.links.linkedin} rel="me noopener">
+          LinkedIn
+        </a>
+      </li>
+      <li>
+        <a href={siteConfig.links.github} rel="me noopener">
+          GitHub
+        </a>
+      </li>
+    </ul>
     <p class="prose" style="margin-top:0.75rem">
       {siteConfig.positioning} {siteConfig.openToWork}
     </p>

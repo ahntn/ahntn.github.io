@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../lib/url';
-import StatusMark from './StatusMark.astro';
+import ProjectKey from './ProjectKey.astro';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -10,35 +10,38 @@ interface Props {
 const props = Astro.props;
 const { project, number } = props;
 const { data } = project;
+const isDev = import.meta.env.DEV;
 ---
 
 <article class="plate">
   <span class="plate-no">
-    Plate {number}
+    No. {number}
     {data.draft ? ' · draft' : ''}
   </span>
+  {data.diagram ? (
+    <figure class="figure">
+      <img
+        src={withBase(data.diagram)}
+        alt={data.diagramAlt ?? `${data.title} architecture`}
+        width="640"
+        height="360"
+        loading="lazy"
+      />
+      <figcaption>Fig. 1</figcaption>
+    </figure>
+  ) : (
+    isDev && (
+      <figure class="figure figure-empty">
+        <span class="todo-box" data-todo>
+          TODO: add `diagram` (Fig. 1)
+        </span>
+        <figcaption>Fig. 1</figcaption>
+      </figure>
+    )
+  )}
   <h3>
     <a href={withBase(`/projects/${project.id}`)}>{data.title}</a>
   </h3>
   <p>{data.summary}</p>
-  <dl class="marks">
-    <div>
-      <dt>Field marks</dt>
-      <dd>
-        {data.stack.length > 0 ? (
-          data.stack.join(' · ')
-        ) : (
-          <span class="todo-box" data-todo>
-            TODO: stack
-          </span>
-        )}
-      </dd>
-    </div>
-    <div>
-      <dt>Status</dt>
-      <dd>
-        <StatusMark status={data.status} />
-      </dd>
-    </div>
-  </dl>
+  <ProjectKey project={project} />
 </article>

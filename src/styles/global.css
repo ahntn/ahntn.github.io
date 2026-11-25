@@ -59,6 +59,11 @@ html {
   scroll-padding-top: 4.5rem;
   -webkit-text-size-adjust: 100%;
 }
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
 body {
   min-height: 100vh;
   font-size: 1.125rem;
@@ -202,8 +207,8 @@ table,
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border: 1px solid var(--rule);
   background: var(--plate);
   color: var(--ink);
@@ -454,29 +459,72 @@ h1 {
   line-height: 1.45;
   color: var(--ink);
 }
-.marks {
+.key {
   margin: auto 0 0;
   padding-top: 0.75rem;
 }
-.marks > div {
-  border-top: 1px solid var(--ink);
-  padding-top: 0.5rem;
-  margin-top: 0.75rem;
+.key > div {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  border-top: 1px solid var(--rule);
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+.key dt {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  line-height: 1.7;
-}
-.marks dt {
-  display: inline;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--pointer);
   font-weight: 600;
+  padding-top: 0.15rem;
 }
-.marks dt::after {
-  content: ' →';
-}
-.marks dd {
-  display: inline;
+.key dd {
   margin: 0;
+  min-width: 0;
+}
+.plate .key > div:first-child {
+  border-top-color: var(--ink);
+}
+.figure {
+  margin: 0.6rem 0 0.2rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+}
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.figure figcaption {
+  border-top: 1px solid var(--ink);
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.figure-empty {
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 7px,
+    var(--rule) 7px 8px
+  );
+  min-height: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.figure-empty .todo-box {
+  margin: 0.5rem;
+}
+.figure-empty figcaption {
+  width: 100%;
+  background: var(--paper);
 }
 .status {
   display: inline-flex;
@@ -536,7 +584,7 @@ h1 {
 }
 .search input {
   width: 100%;
-  height: 2.5rem;
+  height: 2.75rem;
   border: 1px solid var(--rule);
   background: var(--plate);
   color: var(--ink);
@@ -621,6 +669,46 @@ h1 {
 }
 .site-foot a {
   color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+.more {
+  margin-top: 0.5rem;
+}
+.more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.more a::after {
+  content: ' →';
+  white-space: pre;
+}
+.inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.inline-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.btn {
+  min-height: 2.75rem;
 }
 
 .skip-link {
@@ -662,24 +750,28 @@ p.todo-box {
   }
   .toc-inline {
     display: block;
-    margin: 1.25rem 0 0;
-    border: 1px solid var(--rule);
-    background: var(--plate);
+    margin: 0.75rem 0 0;
     font-family: var(--font-mono);
     font-size: 0.8125rem;
   }
   .toc-inline summary {
     cursor: pointer;
-    padding: 0.7rem 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--muted);
   }
   .toc-inline ul {
     list-style: none;
-    margin: 0;
-    padding: 0 0.9rem 0.8rem;
+    margin: 0 0 0.5rem;
+    padding: 0 0 0 0.75rem;
+    border-left: 1px solid var(--rule);
   }
   .toc-inline a {
-    display: block;
-    padding: 0.35rem 0;
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    text-decoration: none;
   }
 }
 @media (max-width: 52rem) {

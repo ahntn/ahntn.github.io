@@ -2,8 +2,8 @@
 import { render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Docs from '../../layouts/Docs.astro';
-import StatusMark from '../../components/StatusMark.astro';
-import { formatDate, getProjects } from '../../lib/content';
+import ProjectKey from '../../components/ProjectKey.astro';
+import { getProjects } from '../../lib/content';
 import { withBase } from '../../lib/url';
 
 export const getStaticPaths = async function getPaths() {
@@ -40,64 +40,7 @@ const toc = headings
     {data.summary}
   </p>
 
-  <table class="spec" style="margin-top:1.5rem">
-    <tbody>
-      <tr>
-        <th scope="row">Version</th>
-        <td>
-          {data.version ?? (
-            <span class="todo-box" data-todo>
-              TODO: version
-            </span>
-          )}
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">Last updated</th>
-        <td class="tabular">
-          {data.updated ? (
-            <time datetime={data.updated.toISOString()}>{formatDate(data.updated)}</time>
-          ) : (
-            <span class="todo-box" data-todo>
-              TODO: last updated
-            </span>
-          )}
-        </td>
-      </tr>
-      <tr>
-        <th scope="row">Status</th>
-        <td>
-          <StatusMark status={data.status} />
-        </td>
-      </tr>
-      {data.role && (
-        <tr>
-          <th scope="row">Role</th>
-          <td>{data.role}</td>
-        </tr>
-      )}
-      {data.demo && (
-        <tr>
-          <th scope="row">Demo</th>
-          <td>
-            <a href={data.demo} rel="noopener">
-              {data.demo}
-            </a>
-          </td>
-        </tr>
-      )}
-      {data.code && (
-        <tr>
-          <th scope="row">Code</th>
-          <td>
-            <a href={data.code} rel="noopener">
-              {data.code}
-            </a>
-          </td>
-        </tr>
-      )}
-    </tbody>
-  </table>
+  <ProjectKey project={project} full />
 
   {(data.image || data.video) && (
     <figure style="margin:2rem 0 0;max-width:var(--measure)">

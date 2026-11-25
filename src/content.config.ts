@@ -20,6 +20,9 @@ const projects = defineCollection({
     demo: z.url().optional(),
     // Optional. Private repos (e.g. Gambasoft apps) leave this empty.
     code: z.url().optional(),
+    // Optional architecture diagram shown as Fig. 1: path under /public, plus alt text.
+    diagram: z.string().optional(),
+    diagramAlt: z.string().optional(),
     // Optional screenshot: path under /public, plus alt text.
     image: z.string().optional(),
     imageAlt: z.string().optional(),

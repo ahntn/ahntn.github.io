@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import StatusMark from './StatusMark.astro';
+import { formatDate } from '../lib/content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** The plate shows the short key; the project page adds the long rows. */
+  full?: boolean;
+}
+const props = Astro.props;
+const { project, full = false } = props;
+const { data } = project;
+---
+
+<dl class="key">
+  <div>
+    <dt>Stack</dt>
+    <dd>
+      {data.stack.length > 0 ? (
+        data.stack.join(' · ')
+      ) : (
+        <span class="todo-box" data-todo>
+          TODO: stack
+        </span>
+      )}
+    </dd>
+  </div>
+  <div>
+    <dt>Status</dt>
+    <dd>
+      <StatusMark status={data.status} />
+    </dd>
+  </div>
+  <div>
+    <dt>Updated</dt>
+    <dd class="tabular">
+      {data.updated ? (
+        <time datetime={data.updated.toISOString()}>{formatDate(data.updated)}</time>
+      ) : (
+        <span class="todo-box" data-todo>
+          TODO: updated
+        </span>
+      )}
+    </dd>
+  </div>
+  {full && (
+    <>
+      <div>
+        <dt>Version</dt>
+        <dd>
+          {data.version ?? (
+            <span class="todo-box" data-todo>
+              TODO: version
+            </span>
+          )}
+        </dd>
+      </div>
+      {data.role && (
+        <div>
+          <dt>Role</dt>
+          <dd>{data.role}</dd>
+        </div>
+      )}
+      {data.demo && (
+        <div>
+          <dt>Demo</dt>
+          <dd>
+            <a href={data.demo} rel="noopener">
+              {data.demo}
+            </a>
+          </dd>
+        </div>
+      )}
+      {data.code && (
+        <div>
+          <dt>Code</dt>
+          <dd>
+            <a href={data.code} rel="noopener">
+              {data.code}
+            </a>
+          </dd>
+        </div>
+      )}
+    </>
+  )}
+</dl>
