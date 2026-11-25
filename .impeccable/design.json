@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-25T06:10:05.000066Z",
+  "title": "Design System: Anh Nguyen, Field Guide to Services",
+  "extensions": {
+    "colorMeta": {
+      "pointer": {
+        "role": "primary",
+        "displayName": "Vermilion Pointer",
+        "canonical": "#b93a17",
+        "tonalRamp": [
+          "#4a1608",
+          "#74240d",
+          "#9a3010",
+          "#b93a17",
+          "#d9603b",
+          "#ea8a6a",
+          "#f4b8a2",
+          "#fbe3da"
+        ]
+      },
+      "cloth": {
+        "role": "secondary",
+        "displayName": "Spruce Book-Cloth",
+        "canonical": "#17483a",
+        "tonalRamp": [
+          "#082018",
+          "#0f3329",
+          "#17483a",
+          "#2f6a57",
+          "#4d8a75",
+          "#7fb09e",
+          "#a9cbbb",
+          "#dfe9e2"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Plate Paper",
+        "canonical": "#eef0e9",
+        "tonalRamp": [
+          "#0f1a16",
+          "#15231e",
+          "#2a3d35",
+          "#4d6157",
+          "#8c9c91",
+          "#c5ccc0",
+          "#eef0e9",
+          "#f8f9f4"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Field Ink",
+        "canonical": "#14201b",
+        "tonalRamp": [
+          "#0b110e",
+          "#14201b",
+          "#24352d",
+          "#34493f",
+          "#4d6157",
+          "#7a8b81",
+          "#a3b8ac",
+          "#e8eee9"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page h1 in Spectral 800."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text at 66ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Mono uppercase index labels and field marks."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "rail-slide",
+        "value": "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Mobile rail drawer; only when reduced motion is not requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "contents-inline",
+        "value": "62rem"
+      },
+      {
+        "name": "rail-drawer",
+        "value": "52rem"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single vermilion action per view.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Contact on LinkedIn</a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;min-height:2.75rem;padding:.65rem 1rem;background:var(--pointer,#b93a17);color:var(--pointer-ink,#fff);font:600 .875rem 'Spline Sans Mono Variable',ui-monospace,monospace;border:1px solid var(--pointer,#b93a17);text-decoration:none}.ds-btn:hover{background:transparent;color:var(--pointer,#b93a17)}.ds-btn:focus-visible{outline:2px solid var(--pointer,#b93a17);outline-offset:3px}"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Secondary action with an ink border.",
+      "html": "<a class=\"ds-btn-quiet\" href=\"#\">Resume</a>",
+      "css": ".ds-btn-quiet{display:inline-flex;align-items:center;min-height:2.75rem;padding:.65rem 1rem;background:transparent;color:var(--ink,#14201b);font:600 .875rem 'Spline Sans Mono Variable',ui-monospace,monospace;border:1px solid var(--ink,#14201b);text-decoration:none}.ds-btn-quiet:hover{border-color:var(--pointer,#b93a17)}.ds-btn-quiet:focus-visible{outline:2px solid var(--pointer,#b93a17);outline-offset:3px}"
+    },
+    {
+      "name": "Plate",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "A numbered project plate with a key list of field marks.",
+      "html": "<article class=\"ds-plate\"><span class=\"ds-no\">No. 1</span><h3>Project name</h3><p>One-line summary of the service.</p><dl class=\"ds-key\"><div><dt>Stack</dt><dd>React \u00b7 Node</dd></div><div><dt>Status</dt><dd>In production</dd></div><div><dt>Updated</dt><dd>2026</dd></div></dl></article>",
+      "css": ".ds-plate{background:var(--plate,#f8f9f4);border:1px solid var(--ink,#14201b);padding:1rem 1.1rem 1.1rem;font-family:Spectral,Georgia,serif;color:var(--ink,#14201b)}.ds-plate:hover{border-color:var(--pointer,#b93a17)}.ds-no{font:.6875rem 'Spline Sans Mono Variable',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted,#4d6157)}.ds-plate h3{font-weight:800;font-size:1.375rem;line-height:1.15;margin:.3rem 0 .4rem}.ds-plate p{margin:0;font-size:1rem;line-height:1.45}.ds-key{margin:0;padding-top:.75rem}.ds-key>div{display:grid;grid-template-columns:5.5rem 1fr;gap:.75rem;border-top:1px solid var(--rule,#c5ccc0);padding:.5rem 0;font-size:.9375rem}.ds-key>div:first-child{border-top-color:var(--ink,#14201b)}.ds-key dt{font:600 .75rem 'Spline Sans Mono Variable',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--pointer,#b93a17)}.ds-key dd{margin:0}"
+    },
+    {
+      "name": "Callout",
+      "kind": "custom",
+      "refersTo": "callout",
+      "description": "Full-border hiring callout with the primary action.",
+      "html": "<div class=\"ds-callout\"><span class=\"ds-callout-title\">Open to full-time remote roles.</span><a class=\"ds-btn\" href=\"#\">Contact on LinkedIn</a></div>",
+      "css": ".ds-callout{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1.5rem;border:1px solid var(--ink,#14201b);background:var(--plate,#f8f9f4);padding:1rem 1.25rem;max-width:42rem}.ds-callout-title{font:600 .9375rem 'Spline Sans Mono Variable',ui-monospace,monospace}.ds-btn{display:inline-flex;align-items:center;min-height:2.75rem;padding:.65rem 1rem;background:var(--pointer,#b93a17);color:var(--pointer-ink,#fff);font:600 .875rem 'Spline Sans Mono Variable',ui-monospace,monospace;border:1px solid var(--pointer,#b93a17);text-decoration:none}.ds-btn:hover{background:transparent;color:var(--pointer,#b93a17)}.ds-btn:focus-visible{outline:2px solid var(--pointer,#b93a17);outline-offset:3px}"
+    },
+    {
+      "name": "Status Mark",
+      "kind": "chip",
+      "refersTo": "plate",
+      "description": "Glyph plus word; in development shown.",
+      "html": "<span class=\"ds-status\"><svg aria-hidden=\"true\" width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"6\" cy=\"6\" r=\"4.5\"/><path d=\"M6 1.5a4.5 4.5 0 0 1 0 9Z\" fill=\"currentColor\"/></svg>In development</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:.4rem;font-family:Spectral,Georgia,serif;font-size:.9375rem;color:var(--ink,#14201b)}"
+    },
+    {
+      "name": "Rail Navigation",
+      "kind": "nav",
+      "refersTo": "rail",
+      "description": "Spruce rail links with the vermilion pointer on the current page.",
+      "html": "<nav class=\"ds-rail\"><ul><li><a href=\"#\" aria-current=\"page\">Overview</a></li><li><a href=\"#\">Projects</a></li><li><a href=\"#\">Writing</a></li></ul></nav>",
+      "css": ".ds-rail{background:#17483a;padding:1rem 1.5rem;width:15rem}.ds-rail ul{list-style:none;margin:0;padding:0;font:.875rem 'Spline Sans Mono Variable',ui-monospace,monospace}.ds-rail li{border-bottom:1px solid #2f6a57}.ds-rail a{display:block;padding:.7rem 0;color:#a9cbbb;text-decoration:none}.ds-rail a:hover{color:#fff}.ds-rail a[aria-current=page]{color:#fff;font-weight:600}.ds-rail a[aria-current=page]::before{content:'';display:inline-block;width:.5rem;height:.5rem;margin-right:.6rem;background:var(--pointer,#b93a17);clip-path:polygon(0 0,100% 50%,0 100%)}.ds-rail a:focus-visible{outline:2px solid #fff;outline-offset:3px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Mono search with a keyboard hint.",
+      "html": "<div class=\"ds-search\"><input type=\"search\" placeholder=\"Search the guide\" aria-label=\"Search\"><kbd>/</kbd></div>",
+      "css": ".ds-search{position:relative;max-width:26rem}.ds-search input{width:100%;box-sizing:border-box;height:2.75rem;border:1px solid var(--rule,#c5ccc0);background:var(--plate,#f8f9f4);color:var(--ink,#14201b);padding:0 2.75rem 0 .9rem;font:.875rem 'Spline Sans Mono Variable',ui-monospace,monospace}.ds-search input:focus-visible{outline:2px solid var(--pointer,#b93a17);outline-offset:3px}.ds-search kbd{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);font:.75rem 'Spline Sans Mono Variable',ui-monospace,monospace;color:var(--muted,#4d6157);border:1px solid var(--rule,#c5ccc0);padding:0 .4rem}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Pocket Field Guide",
+    "overview": "The site reads as a small printed field guide to services. Each app is a numbered plate identified by field marks (stack, status, updated) rather than a screenshot card. A spruce book-cloth rail holds the name and contents; the reading column is cool plate paper with near-black ink.",
+    "keyCharacteristics": [
+      "Spruce cloth rail on the left, paper column beside it; dark theme keeps the cloth.",
+      "One vermilion pointer for focus, hover, current-page arrow, field-mark labels and the single primary action.",
+      "Square corners, 1px borders, no shadows, no side-stripe borders.",
+      "Serif for reading and headings, mono for labels, field marks, controls and code.",
+      "Status is always a glyph plus a word."
+    ],
+    "rules": [
+      {
+        "name": "The One Pointer Rule",
+        "body": "Vermilion is the only accent and never fills a surface larger than a button. Its rarity is how the eye finds the next action.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cloth Stays Rule",
+        "body": "The rail is spruce in both themes; only the paper changes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Serif reads, mono indexes. Never set a paragraph in mono or a heading in anything but Spectral 800.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Print Rule",
+        "body": "Nothing casts a shadow. Separate with a border or a tone shift.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep vermilion to pointers, field-mark labels, focus and the single primary action.",
+      "Do pair every status with its glyph and word.",
+      "Do use plain labels: Project, Stack, Status, Updated, Fig. 1.",
+      "Do separate surfaces with 1px borders and keep corners square.",
+      "Do keep targets at least 2.75rem and honor reduced motion.",
+      "Do render unknown facts as a visible TODO box, never as invented copy."
+    ],
+    "donts": [
+      "Don't add shadows, gradients, glass, rounded corners or side-stripe borders.",
+      "Don't use \"Plate\" or \"Field marks\" as visible words; the user chose plain labels.",
+      "Don't set body copy in mono or headings in anything but Spectral 800.",
+      "Don't put vermilion on large fills or use it for decoration.",
+      "Don't build SaaS-landing hero patterns or stock illustration."
+    ]
+  }
+}
