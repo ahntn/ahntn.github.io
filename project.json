@@ -1,0 +1,15 @@
+{
+  "name": "ahntn.github.io",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "{projectRoot}/src",
+  "targets": {
+    "remote:add": {
+      "options": {
+        "url": "https://github.com/ahntn/ahntn.github.io.git"
+      }
+    },
+    "remote:push": {},
+    "remote:pull": {}
+  }
+}
